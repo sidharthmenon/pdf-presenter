@@ -33,6 +33,8 @@
 
   async function closePresentation() {
     try {
+      pdfPath = '';
+      thumbnails = null;
       await invoke('close_singleview');
     } catch (err) {
       console.error('Failed to close singleview:', err);
@@ -45,7 +47,7 @@
       return;
     }
     console.log("start", pdfPath)
-    await invoke('open_pdf_presenter', { pdfPath });
+    await invoke('open_pdf_presenter');
   }
 
   async function nextPage() {
@@ -95,17 +97,17 @@
 <main class="flex flex-col">
   
   <div class="flex flex-row items-center justify-between p-4">
-    <button on:click={selectPDF} class="px-6 py-3 bg-gray-300 rounded hover:bg-gray-400">
+    <button on:click={selectPDF} class="px-6 py-3 bg-gray-300 hover:bg-gray-400 rounded hover:bg-gray-400">
       {pdfPath ? 'Change PDF' : 'Select PDF'}
     </button>
 
     {#if pdfPath}
-      <p class="text-sm text-gray-600 w-72 text-center">{pdfPath.split('/').pop()}</p>
+      <p class="text-sm text-gray-600 w-72 text-center">{pdfPath}</p>
     {/if}
 
     {#if pdfPath}
-      <button on:click={startPresentation} class="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600">
-        Start Presentation
+      <button on:click={closePresentation} class="px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-white rounded hover:bg-blue-600">
+        Close Presentation
       </button>
     {/if}
   </div>
@@ -132,8 +134,8 @@
     </div>
 
     <div class="flex flex-row items-center justify-between gap-4 p-4">
-      <button on:click={prevPage} class="px-4 py-2 bg-gray-300 rounded">Previous</button>
-      <button on:click={nextPage} class="px-4 py-2 bg-gray-300 rounded">Next</button>
+      <button on:click={prevPage} class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded">Previous</button>
+      <button on:click={nextPage} class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded">Next</button>
       <!-- <button on:click={toggleFit} class="px-4 py-2 bg-blue-500 text-white rounded">Toggle Fit</button> -->
     </div>
 

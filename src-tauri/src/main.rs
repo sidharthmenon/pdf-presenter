@@ -30,7 +30,7 @@ fn set_current_pdf_path(state: State<AppState>, pdf_path: String) {
 }
 
 #[tauri::command]
-async fn open_pdf_presenter(app: tauri::AppHandle, pdf_path: String) -> Result<(), String> {
+async fn open_pdf_presenter(app: tauri::AppHandle) -> Result<(), String> {
     let monitors = app.available_monitors().map_err(|e| e.to_string())?;
 
     // println!("Monitors: {:?}", monitors);
