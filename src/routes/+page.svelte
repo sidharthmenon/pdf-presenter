@@ -67,11 +67,11 @@
   }
 
   function handleKeyDown(e) {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
       e.preventDefault();
       nextPage();
     }
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
       e.preventDefault();
       prevPage();
     }
@@ -84,6 +84,11 @@
     await listen('current-page', ({ payload }) => {
       currentPage = payload.page;
     });
+
+    const selected = await invoke('get_current_pdf_path', { window: 'main' });
+    if (selected) {
+      openPDF(selected);
+    }
 
     return () =>  async () => {
       await closePresentation();

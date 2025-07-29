@@ -84,6 +84,17 @@ fn main() {
             load_pdf_bytes, 
             close_singleview
         ])
+        .setup(|app| {
+            let args: Vec<String> = std::env::args().collect();
+            
+            println!("Arguments: {:?}", args);
+
+            if let Some(pdf_arg) = args.iter().find(|a| a.ends_with(".pdf")) {
+                let state: State<AppState> = app.state();
+                *state.0.lock().unwrap() = Some(pdf_arg.clone());
+            }
+            Ok(())
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
